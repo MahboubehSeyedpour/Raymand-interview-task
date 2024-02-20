@@ -23,7 +23,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField ("String", "BASE_URL", "\"https://imdb146.p.rapidapi.com/\"")
+            android.buildFeatures.buildConfig = true
+            isJniDebuggable = true
+            isDebuggable = true
+        }
         release {
+            buildConfigField ("String", "BASE_URL", "\"https://imdb146.p.rapidapi.com/\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -87,7 +94,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
     // Coil image library
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")

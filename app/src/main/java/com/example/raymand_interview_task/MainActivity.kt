@@ -4,8 +4,14 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
@@ -31,7 +37,15 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             navController.addOnDestinationChangedListener(this)
 
             RaymandinterviewtaskTheme {
-                RaymandApp(viewModel = viewModel, navController = navController)
+
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(id = R.dimen.app_padding)),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    RaymandApp(viewModel = viewModel, navController = navController)
+                }
             }
         }
     }
