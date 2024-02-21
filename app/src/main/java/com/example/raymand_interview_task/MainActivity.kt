@@ -15,9 +15,11 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.raymand_interview_task.presentation.navigation.Routes
 import com.example.raymand_interview_task.presentation.screen.details.DetailsScreen
 import com.example.raymand_interview_task.presentation.screen.home.HomeScreen
@@ -69,7 +71,13 @@ fun RaymandApp(viewModel: MainViewModel, navController: NavHostController) {
             composable(route = Routes.Home.route) {
                 HomeScreen(navController = navController)
             }
-            composable(route = Routes.Details.route) {
+            composable(
+                route = "${Routes.Details.route}?id={id}",
+                arguments = listOf(navArgument("id") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                })
+            ) {
                 DetailsScreen(navController = navController)
             }
         }

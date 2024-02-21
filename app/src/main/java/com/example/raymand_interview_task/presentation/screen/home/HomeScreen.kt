@@ -41,7 +41,7 @@ fun HomeScreen(
     LaunchedEffect("events") {
         viewModel.events.collectLatest { event ->
             when (event) {
-                is HomeEvents.NavigateToDetails -> navController.navigate(Routes.Details.route) {
+                is HomeEvents.NavigateToDetails -> navController.navigate("${Routes.Details.route}?id=${event.id}") {
                     launchSingleTop = true
                 }
             }
@@ -61,18 +61,6 @@ fun HomeScreen(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Results(viewModel = viewModel)
-
-
-//                if (viewModel.titleResults.isNotEmpty())
-//                    SectionPartition(title = "Title Results")
-
-//                TitleResults(viewModel)
-
-//                if (viewModel.nameResults.isNotEmpty())
-//                    SectionPartition(title = "Name Results")
-
-//                NameResults(viewModel)
-
             }
 
             if (viewModel.searchState.isLoading) {
@@ -100,7 +88,7 @@ fun Results(viewModel: HomeViewModel) {
                         .animateItemPlacement(
                             tween(durationMillis = 250)
                         )
-                        .clickable {},
+                        .clickable { viewModel.navigateToDetails(item.id) },
                     title = item.titleNameText,
                     releaseDate = item.titleReleaseText,
                     imageDescription = item.titlePosterImageModel?.caption.orEmpty(),
@@ -119,67 +107,7 @@ fun Results(viewModel: HomeViewModel) {
                         .animateItemPlacement(
                             tween(durationMillis = 250)
                         )
-                        .clickable {},
-                    title = item.knownForTitleText,
-                    releaseDate = item.knownForTitleYear,
-                    imageDescription = item.avatarImageModel.caption,
-                    imageUrl = item.avatarImageModel.url ?: ""
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-        }
-    )
-}
-
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun TitleResults(viewModel: HomeViewModel) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        horizontalArrangement = Arrangement.SpaceBetween,
-//            contentPadding = PaddingValues(12.dp),
-        content = {
-
-            items(items = viewModel.titleResults, key = { item -> item.id }) { item ->
-                MovieCard(
-                    modifier = Modifier
-                        .padding(dimensionResource(id = R.dimen.card_spacing))
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .animateItemPlacement(
-                            tween(durationMillis = 250)
-                        )
-                        .clickable {},
-                    title = item.titleNameText,
-                    releaseDate = item.titleReleaseText,
-                    imageDescription = item.titlePosterImageModel?.caption.orEmpty(),
-                    imageUrl = item.titlePosterImageModel?.url ?: ""
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-        }
-    )
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun NameResults(viewModel: HomeViewModel) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        horizontalArrangement = Arrangement.SpaceBetween,
-//            contentPadding = PaddingValues(12.dp),
-        content = {
-            items(items = viewModel.nameResults, key = { item -> item.id }) { item ->
-                MovieCard(
-                    modifier = Modifier
-                        .padding(dimensionResource(id = R.dimen.card_spacing))
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .animateItemPlacement(
-                            tween(durationMillis = 250)
-                        )
-                        .clickable {},
+                        .clickable { viewModel.navigateToDetails(item.id) },
                     title = item.knownForTitleText,
                     releaseDate = item.knownForTitleYear,
                     imageDescription = item.avatarImageModel.caption,

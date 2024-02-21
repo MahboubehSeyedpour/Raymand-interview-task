@@ -4,8 +4,6 @@ import com.example.raymand_interview_task.BuildConfig
 import com.example.raymand_interview_task.data.Exceptions.NetworkConnectionInterceptor
 import com.example.raymand_interview_task.data.HeaderInterceptor
 import com.example.raymand_interview_task.data.RetrofitService
-import com.example.raymand_interview_task.data.repositories.SearchRepository
-import com.example.raymand_interview_task.domain.repositoryImpl.SearchRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

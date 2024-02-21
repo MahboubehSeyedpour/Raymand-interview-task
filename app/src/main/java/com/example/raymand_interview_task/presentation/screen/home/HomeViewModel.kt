@@ -9,21 +9,23 @@ import com.example.raymand_interview_task.data.ModelState
 import com.example.raymand_interview_task.data.Resource
 import com.example.raymand_interview_task.data.model.Result
 import com.example.raymand_interview_task.data.model.ResultOfNameResult
-import com.example.raymand_interview_task.data.repositories.SearchRepository
+import com.example.raymand_interview_task.data.repositories.MovieRepository
+import com.example.raymand_interview_task.data.response.SearchResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    val searchRepository: SearchRepository
+    val movieRepository: MovieRepository
 ) : ViewModel() {
 
     var events = MutableSharedFlow<HomeEvents>()
         private set
-    var searchState by mutableStateOf(ModelState<Any>())
+    var searchState by mutableStateOf(ModelState<SearchResponse>())
         private set
     var titleResults by mutableStateOf<List<Result>>(emptyList())
     var nameResults by mutableStateOf<List<ResultOfNameResult>>(emptyList())
@@ -33,8 +35,9 @@ class HomeViewModel @Inject constructor(
         searchQuery = value
     }
 
+
     fun onSearchClicked() {
-        searchRepository.search(searchQuery).onEach { result ->
+        movieRepository.search(searchQuery).onEach { result ->
             when (result) {
                 is Resource.Error -> {
                     searchState = ModelState(error = result.message ?: "")
@@ -53,9 +56,8 @@ class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-//    fun navigateToDetails() = viewModelScope.launch {
-//        search("brad")
-//        events.emit(HomeEvents.NavigateToDetails)
-//    }
+    fun navigateToDetails(id: String) = viewModelScope.launch {
+        events.emit(HomeEvents.NavigateToDetails(id))
+    }
 
 }

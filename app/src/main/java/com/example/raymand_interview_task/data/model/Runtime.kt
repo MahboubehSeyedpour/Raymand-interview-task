@@ -1,0 +1,8 @@
+package com.example.raymand_interview_task.data.model
+
+import com.google.gson.annotations.SerializedName
+
+data class Runtime(@SerializedName("seconds")
+                   val seconds: Int = 0,
+                   @SerializedName("__typename")
+                   val Typename: String = "")
